@@ -1,0 +1,64 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
+    <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+
+    <body>
+        <a-scene physics>
+            <!-- Player -->
+            <a-entity id="rig" movement-controls="fly: true; constrainToNavMesh: true" kinematic-bod rotation="0 -90 0">
+                <a-entity id="camera" camera position="0 1.6 0" width="0.1" height="0.1" depth="0.1" look-controls="pointerLockEnabled: false"></a-entity>
+
+                <a-entity id="left-hand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc" teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
+                <a-entity id="right-hand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc" teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
+            </a-entity>
+
+            <!-- Ground -->
+            <a-plane width="100" height="100" color="red" position="0 0 0" rotation="-90 0 0" static-body class="links"></a-plane>
+
+            <!-- Obstacles -->
+            <a-box color="#39BB82" class="links" width="15" height="5" depth="3" position="8 2.5 -5" static-body></a-box>
+            <a-box color="#39BB82" class="links" width="15" height="5" depth="3" position="8 2.5 5" static-body></a-box>
+            <a-box color="yellow" width="15" class="links" height="5" depth="3" position="8 0 10" rotation="45 0 0" static-body></a-box>
+
+            <!-- Lighting -->
+            <a-light type="ambient" color="#bbb"></a-light>
+            <a-light color="#ccc" position="0 30 0" distance="100" intensity="0.4" type="point"></a-light>
+            <a-light color="#ccc" position="3 10 -10" distance="50" intensity="0.4" type="point"></a-light>
+
+            <a-sky color="skyblue"></a-sky>
+        </a-scene>
+    </body>
+
+    <script>
+        AFRAME.registerComponent('raycaster-listen', {
+            init: function() {
+                // Use events to figure out what raycaster is listening so we don't have to
+                // hardcode the raycaster.
+                this.el.addEventListener('raycaster-intersected', evt => {
+                    this.raycaster = evt.detail.el;
+                });
+                this.el.addEventListener('raycaster-intersected-cleared', evt => {
+                    this.raycaster = null;
+                });
+            },
+
+            tick: function() {
+                if (!this.raycaster) {
+                    return;
+                } // Not intersecting.
+
+                let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+                if (!intersection) {
+                    return;
+                }
+                console.log(intersection.point);
+            }
+        });
+    </script>
+
+</html>
