@@ -7,119 +7,20 @@
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
-
-        <script>
-		    AFRAME.registerComponent('raycaster-listen', {
-			    init: function() {
-				    // Use events to figure out what raycaster is listening so we don't have to
-				    // hardcode the raycaster.
-				    this.el.addEventListener('raycaster-intersected', evt => {
-					    this.raycaster = evt.detail.el;
-				    });
-				    this.el.addEventListener('raycaster-intersected-cleared', evt => {
-					    this.raycaster = null;
-				    });
-			    },
-
-			    tick: function() {
-				    if (!this.raycaster) {
-					    return;
-				    } // Not intersecting.
-
-				    let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
-				    if (!intersection) {
-					    return;
-				    }
-				    console.log(intersection.point);
-			    }
-		    });
-
-		    function pointingStartLeft(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'pointing start left');
-		    }
-		    function pointingEndLeft(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'pointing end left');
-		    }
-
-		    function pointingStartRight(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'pointing start right');
-		    }
-		    function pointingEndRight(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'pointing end right');
-            }
-
-		    function pointUpLeft(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'point up left');
-		    }
-		    function pointDownLeft(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'point down left');
-		    }
-
-		    function pointUpRight(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'point up right');
-		    }
-		    function pointDownRight(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'point down right');
-		    }
-
-		    function gripUpLeft(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'grip up left');
-		    }
-		    function gripDownLeft(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'grip down left');
-		    }
-
-		    function gripUpRight(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'grip up right');
-		    }
-		    function gripDownRight(e) {
-			    let text = document.querySelector('a-text');
-			    text.setAttribute('value', 'grip down right');
-		    }
-
-		    AFRAME.registerComponent('right-hand-listen', {
-			    init: function () {
-				    this.el.addEventListener('pointingstart', pointingStartRight)
-				    this.el.addEventListener('pointingend', pointingEndRight)
-
-				    this.el.addEventListener('pointup', pointUpRight)
-				    this.el.addEventListener('pointdown', pointDownRight)
-
-				    this.el.addEventListener('gripup', gripUpRight)
-				    this.el.addEventListener('gripdown', gripDownRight)
-			    }
-		    });
-
-		    AFRAME.registerComponent('left-hand-listen', {
-			    init: function () {
-				    this.el.addEventListener('pointingstart', pointingStartLeft)
-				    this.el.addEventListener('pointingend', pointingEndLeft)
-
-				    this.el.addEventListener('pointup', pointUpLeft)
-				    this.el.addEventListener('pointdown', pointDownLeft)
-
-				    this.el.addEventListener('gripup', gripUpLeft)
-				    this.el.addEventListener('gripdown', gripDownLeft)
-			    }
-		    });
-        </script>
+        <script src="js/functions.js"></script>
+        <script src="js/components/RaycasterListener.js"></script>
+        <script src="js/components/RightHandListener.js"></script>
+        <script src="js/components/LeftHandListener.js"></script>
+        <script src="js/components/polygon.js"></script>
+        <script src="js/components/meteo.js"></script>
     </head>
     <body>
-        <a-scene physics renderer="gammaOutput: true">
+        <a-scene physics meteo
+                 renderer="gammaOutput: true">
             <!-- Player -->
             <a-entity id="rig"
                       movement-controls kinematic-body
+                      position="-4 1.6 0"
                       rotation="0 -90 0">
                 <a-entity id="camera"
                           camera="userHeight: 1.6" position="0 1.6 0"
@@ -128,11 +29,11 @@
 
                 <a-entity id="left-hand"
                           hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
-                          left-hand-listen
+                          left-hand-listener
                           teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
                 <a-entity id="right-hand"
                           hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
-                          right-hand-listen
+                          right-hand-listener
                           teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
             </a-entity>
 
@@ -161,6 +62,14 @@
 
             <a-text value="Hello World !!" negate="false"
                     position="-2 2 -4"></a-text>
+
+            <a-entity position="0 0 -2"
+                      rotation="0 0 -30"
+                      width="1" height="1" depth="1"
+                      geomerty="primitive: box"
+                      polygon
+                      static-body>
+            </a-entity>
         </a-scene>
     </body>
 
