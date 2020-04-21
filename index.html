@@ -7,66 +7,161 @@
         <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
         <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
+
+        <script>
+		    AFRAME.registerComponent('raycaster-listen', {
+			    init: function() {
+				    // Use events to figure out what raycaster is listening so we don't have to
+				    // hardcode the raycaster.
+				    this.el.addEventListener('raycaster-intersected', evt => {
+					    this.raycaster = evt.detail.el;
+				    });
+				    this.el.addEventListener('raycaster-intersected-cleared', evt => {
+					    this.raycaster = null;
+				    });
+			    },
+
+			    tick: function() {
+				    if (!this.raycaster) {
+					    return;
+				    } // Not intersecting.
+
+				    let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+				    if (!intersection) {
+					    return;
+				    }
+				    console.log(intersection.point);
+			    }
+		    });
+
+		    function pointingStartLeft(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'pointing start left');
+		    }
+		    function pointingEndLeft(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'pointing end left');
+		    }
+
+		    function pointingStartRight(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'pointing start right');
+		    }
+		    function pointingEndRight(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'pointing end right');
+            }
+
+		    function pointUpLeft(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'point up left');
+		    }
+		    function pointDownLeft(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'point down left');
+		    }
+
+		    function pointUpRight(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'point up right');
+		    }
+		    function pointDownRight(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'point down right');
+		    }
+
+		    function gripUpLeft(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'grip up left');
+		    }
+		    function gripDownLeft(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'grip down left');
+		    }
+
+		    function gripUpRight(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'grip up right');
+		    }
+		    function gripDownRight(e) {
+			    let text = document.querySelector('a-text');
+			    text.setAttribute('value', 'grip down right');
+		    }
+
+		    AFRAME.registerComponent('right-hand-listen', {
+			    init: function () {
+				    this.el.addEventListener('pointingstart', pointingStartRight)
+				    this.el.addEventListener('pointingend', pointingEndRight)
+
+				    this.el.addEventListener('pointup', pointUpRight)
+				    this.el.addEventListener('pointdown', pointDownRight)
+
+				    this.el.addEventListener('gripup', gripUpRight)
+				    this.el.addEventListener('gripdown', gripDownRight)
+			    }
+		    });
+
+		    AFRAME.registerComponent('left-hand-listen', {
+			    init: function () {
+				    this.el.addEventListener('pointingstart', pointingStartLeft)
+				    this.el.addEventListener('pointingend', pointingEndLeft)
+
+				    this.el.addEventListener('pointup', pointUpLeft)
+				    this.el.addEventListener('pointdown', pointDownLeft)
+
+				    this.el.addEventListener('gripup', gripUpLeft)
+				    this.el.addEventListener('gripdown', gripDownLeft)
+			    }
+		    });
+        </script>
     </head>
     <body>
-        <a-scene physics>
+        <a-scene physics renderer="gammaOutput: true">
             <!-- Player -->
-            <a-entity id="rig" movement-controls="fly: false; constrainToNavMesh: true"
-                      kinematic-bod rotation="0 -90 0">
-                <a-entity id="camera" camera position="0 1.6 0"
+            <a-entity id="rig"
+                      movement-controls kinematic-body
+                      rotation="0 -90 0">
+                <a-entity id="camera"
+                          camera="userHeight: 1.6" position="0 1.6 0"
                           width="0.1" height="0.1" depth="0.1"
-                          look-controls="pointerLockEnabled: false"></a-entity>
+                          look-controls="pointerLockEnabled: true"></a-entity>
 
-                <a-entity id="left-hand" hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
+                <a-entity id="left-hand"
+                          hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
+                          left-hand-listen
                           teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
-                <a-entity id="right-hand" hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
+                <a-entity id="right-hand"
+                          hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
+                          right-hand-listen
                           teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
             </a-entity>
 
             <!-- Ground -->
-            <a-plane width="100" height="100" color="red" position="0 0 0" rotation="-90 0 0"
-                     static-body class="links"></a-plane>
+            <a-grid static-body></a-grid>
+            <a-plane width="100" height="100"
+                     color="red"
+                     position="0 0.1 0" rotation="-90 0 0"
+                     static-body
+                     class="links"></a-plane>
+            <a-sky color="skyblue"></a-sky>
 
-            <!-- Obstacles -->
-            <a-box color="#39BB82" class="links" width="15" height="5" depth="3" position="8 2.5 -5" static-body></a-box>
-            <a-box color="#39BB82" class="links" width="15" height="5" depth="3" position="8 2.5 5" static-body></a-box>
-            <a-box color="yellow" class="links" width="15"  height="5" depth="3" position="8 0 10" rotation="45 0 0"
+            <a-box color="#39BB82" class="links"
+                   width="15" height="5" depth="3"
+                   position="8 2.5 -5"
+                   static-body></a-box>
+            <a-box color="#39BB82" class="links"
+                   width="15" height="5" depth="3"
+                   position="8 2.5 5"
+                   static-body></a-box>
+            <a-box color="yellow" class="links"
+                   width="15"  height="5" depth="3"
+                   position="8 0 10"
+                   rotation="45 0 0"
                    static-body></a-box>
 
-            <!-- Lighting -->
-            <a-light type="ambient" color="#bbb"></a-light>
-            <a-light color="#ccc" position="0 30 0" distance="100" intensity="0.4" type="point"></a-light>
-            <a-light color="#ccc" position="3 10 -10" distance="50" intensity="0.4" type="point"></a-light>
-
-            <a-sky color="skyblue"></a-sky>
+            <a-text value="Hello World !!" negate="false"
+                    position="-2 2 -4"></a-text>
         </a-scene>
     </body>
-
-    <!--<script>
-        AFRAME.registerComponent('raycaster-listen', {
-            init: function() {
-                // Use events to figure out what raycaster is listening so we don't have to
-                // hardcode the raycaster.
-                this.el.addEventListener('raycaster-intersected', evt => {
-                    this.raycaster = evt.detail.el;
-                });
-                this.el.addEventListener('raycaster-intersected-cleared', evt => {
-                    this.raycaster = null;
-                });
-            },
-
-            tick: function() {
-                if (!this.raycaster) {
-                    return;
-                } // Not intersecting.
-
-                let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
-                if (!intersection) {
-                    return;
-                }
-                console.log(intersection.point);
-            }
-        });
-    </script>-->
 
 </html>
