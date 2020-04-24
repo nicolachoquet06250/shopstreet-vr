@@ -3,11 +3,12 @@
     <head>
         <meta charset="utf-8" />
         <title>ShopStreet</title>
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-        <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
-        <script src="https://rawgit.com/fernandojsg/aframe-teleport-controls/master/dist/aframe-teleport-controls.min.js"></script>
-        
+        <script src="libs/js/aframe/aframe-1.0.4.min.js"></script>
+        <script src="libs/js/aframe/physics-system/aframe-physics-system-4.0.1.min.js"></script>
+        <script src="libs/js/aframe/extra/aframe-extra-6.1.0.min.js"></script>
+        <script src="libs/js/aframe/teleport-controls/aframe-teleport-controls.min.js"></script>
+        <script src="libs/js/aframe/environment-component/aframe-environment-component.min.js"></script>
+
         <script src="js/functions.js"></script>
         
         <script src="js/components/RaycasterListener.js"></script>
@@ -18,13 +19,28 @@
         <script src="js/components/meteo.js"></script>
     </head>
     <body>
-        <a-scene physics meteo
-                 renderer="gammaOutput: true">
+        <a-scene physics="debug: true" meteo
+                 renderer="colorManagement: true">
+            <a-assets>
+                <a-asset-item id="temple-obj" src="models/tample/Mausoleum.obj"></a-asset-item>
+                <a-asset-item id="temple-mtl" src="models/tample/Mausoleum.mtl"></a-asset-item>
+
+                <a-asset-item id="building-obj" src="models/immeuble/Building.obj"></a-asset-item>
+                <a-asset-item id="building-mtl" src="models/immeuble/Building.mtl"></a-asset-item>
+                <a-asset-item id="building-gltf" src="models/immeuble/Building.gltf"></a-asset-item>
+
+                <audio id="river" src="sources/audio/rivière.mp3"></audio>
+                <img id="water-normal"
+                     src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg"
+                     crossorigin="anonymous"  alt="water mesh"/>
+            </a-assets>
+
             <!-- Player -->
             <a-entity id="rig"
                       movement-controls kinematic-body
                       position="-4 1.6 0"
-                      rotation="0 -90 0">
+                      rotation="0 -90 0"
+                      collide-listener>
                 <a-entity id="camera"
                           camera="userHeight: 1.6" position="0 1.6 0"
                           width="0.1" height="0.1" depth="0.1"
@@ -32,18 +48,18 @@
 
                 <a-entity id="left-hand"
                           hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
-                          left-hand-listener
-                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
+                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line; collisionEntities: .links"
+                          left-hand-listener></a-entity>
                 <a-entity id="right-hand"
                           hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
-                          right-hand-listener
-                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"></a-entity>
+                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line; collisionEntities: .links"
+                          right-hand-listener></a-entity>
             </a-entity>
 
             <!-- Ground -->
             <a-grid static-body></a-grid>
             <a-plane width="100" height="100"
-                     color="red"
+                     color="#94d82d"
                      position="0 0.1 0" rotation="-90 0 0"
                      static-body
                      class="links"></a-plane>
@@ -69,10 +85,28 @@
             <a-entity position="0 0 -2"
                       rotation="0 0 -30"
                       width="1" height="1" depth="1"
-                      geomerty="primitive: box"
-                      polygon
-                      static-body>
+                      class="links"
+                      polygon static-body>
             </a-entity>
+
+            <a-box obj-model="obj: #temple-obj; mtl: #temple-mtl"
+                   scale="0.05 0.05 0.05"
+                   rotation="0 90 0"
+                   position="-20 5 0"
+                   static-body></a-box>
+
+            <!--<a-box width="10" height="10" depth="10"
+                   position="-20 5 20"
+                   rotation="90 0 0"
+                   static-body>
+                <a-entity gltf-model="#building-gltf" scale="1.5 1.5 1.5" ></a-entity>
+            </a-box>-->
+
+            <a-ocean-plane material="normalMap: #water-normal;"
+                           geometry="width: 10; height: 100;"
+                           position="-10 0.2 0"
+                           sound="src: #river; autoplay: true; loop: true; positional: true; refDistance: 2; distanceModel: linear;"></a-ocean-plane>
+
         </a-scene>
     </body>
 </html>
