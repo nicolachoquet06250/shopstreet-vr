@@ -41,7 +41,7 @@
 
             <!-- Player -->
             <a-entity id="rig"
-                      movement-controls kinematic-body
+                      movement-controls="constrainToNavMesh: true; fly: true" kinematic-body
                       position="-4 1.6 0"
                       rotation="0 -90 0"
                       collide-listener>
@@ -52,11 +52,10 @@
 
                 <a-entity id="left-hand"
                           hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
-                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line;"
+                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: parabolic;"
                           left-hand-listener></a-entity>
                 <a-entity id="right-hand"
                           hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
-                          teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: line"
                           right-hand-listener></a-entity>
             </a-entity>
 
@@ -68,6 +67,10 @@
                      static-body
                      class="links"></a-plane>
             <a-sky color="skyblue"></a-sky>
+
+<!--            <a-hexgrid src="hex-map.json"-->
+<!--                       material="color: #47BF92" position="0 0 0"></a-hexgrid>-->
+<!--            <a-ocean color="#92E2E2" width="25" depth="25" density="15" position="0 1 0" speed="2" static-body></a-ocean>-->
 
             <a-box color="#39BB82" class="links"
                    width="15" height="5" depth="3"
@@ -84,7 +87,7 @@
                    static-body></a-box>
 
             <a-text value="Hello World !!" negate="false"
-                    position="-28 2 -4"></a-text>
+                    position="-4 1.6 0"></a-text>
 
             <a-entity position="-20 0 -2"
                       rotation="0 0 -30"
@@ -98,13 +101,6 @@
                    rotation="0 90 0"
                    position="-28 5 20"
                    static-body></a-box>
-
-            <!--<a-box width="10" height="10" depth="10"
-                   position="-20 5 20"
-                   rotation="90 0 0"
-                   static-body>
-                <a-entity gltf-model="#building-gltf" scale="1.5 1.5 1.5" ></a-entity>
-            </a-box>-->
 
             <rw-room position="-2.5 0 -2.5" width="5" length="5" height="3">
 
@@ -214,10 +210,12 @@
 
             </rw-room>
 
-            <a-ocean-plane material="normalMap: #water-normal;"
+            <a-plane position="0 3.1 -2.5" rotation="-90 0 0" material="color: white" width="6" height="11" static-body></a-plane>
+
+            <!--<a-ocean-plane material="normalMap: #water-normal;"
                            geometry="width: 10; height: 100;"
                            position="-10 0.2 0"
-                           sound="src: #river; autoplay: true; loop: true; positional: true; refDistance: 2; distanceModel: linear;"></a-ocean-plane>
+                           sound="src: #river; autoplay: true; loop: true; positional: true; refDistance: 2; distanceModel: linear;"></a-ocean-plane>-->
 
         </a-scene>
     </body>
