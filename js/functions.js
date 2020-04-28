@@ -10,3 +10,8 @@ function grip(e, mode, side) {
 	let text = document.querySelector('a-text');
 	text.setAttribute('value', `grip ${mode} ${side}`);
 }
+
+function button(button) {
+	let text = document.querySelector('a-text');
+	text.setAttribute('value', `button ${button}`);
+}

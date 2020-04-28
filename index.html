@@ -60,36 +60,35 @@
             </a-entity>
 
             <!-- Ground -->
-            <a-grid static-body></a-grid>
-            <a-plane width="100" height="100"
+            <!--<a-plane width="100" height="100"
                      color="#94d82d"
                      position="0 0.1 0" rotation="-90 0 0"
                      static-body
-                     class="links"></a-plane>
+                     class="links"></a-plane>-->
             <a-sky color="skyblue"></a-sky>
 
-<!--            <a-hexgrid src="hex-map.json"-->
-<!--                       material="color: #47BF92" position="0 0 0"></a-hexgrid>-->
+            <a-hexgrid src="hex-map.json"
+                       material="color: #47BF92" position="0 0 0" static-body></a-hexgrid>
 <!--            <a-ocean color="#92E2E2" width="25" depth="25" density="15" position="0 1 0" speed="2" static-body></a-ocean>-->
 
             <a-box color="#39BB82" class="links"
                    width="15" height="5" depth="3"
-                   position="-28 2.5 -5"
+                   position="-28 5.1 -5"
                    static-body></a-box>
             <a-box color="#39BB82" class="links"
                    width="15" height="5" depth="3"
-                   position="28 2.5 5"
+                   position="28 4.1 5"
                    static-body></a-box>
             <a-box color="yellow" class="links"
                    width="15"  height="5" depth="3"
-                   position="-28 0 10"
+                   position="-28 1 10"
                    rotation="45 0 0"
                    static-body></a-box>
 
             <a-text value="Hello World !!" negate="false"
-                    position="-4 1.6 0"></a-text>
+                    position="-4 2.7 0"></a-text>
 
-            <a-entity position="-20 0 -2"
+            <a-entity position="-20 1.7 -2"
                       rotation="0 0 -30"
                       width="1" height="1" depth="1"
                       class="links"
@@ -99,31 +98,31 @@
             <a-box obj-model="obj: #temple-obj; mtl: #temple-mtl"
                    scale="0.05 0.05 0.05"
                    rotation="0 90 0"
-                   position="-28 5 20"
+                   position="-28 6.6 20"
                    static-body></a-box>
 
-            <rw-room position="-2.5 0 -2.5" width="5" length="5" height="3">
+            <rw-room position="-2.5 1.6 -2.5" width="5" length="5" height="3">
 
-                <a-box width="1.5" height="6" position="1 0 -0.1" depth="0.05" static-body></a-box>
-                <a-box width="0.5" height="6" position="4.5 0 -0.1" depth="0.05" static-body></a-box>
+                <a-box width="1.5" height="6" position="1 0.1 -0.1" depth="0.05" static-body></a-box>
+                <a-box width="0.5" height="6" position="4.5 0.1 -0.1" depth="0.05" static-body></a-box>
                 <rw-wall material="color:#F88">
 
                     <rw-doorhole id="holeA"></rw-doorhole>
 
                 </rw-wall>
 
-                <a-box width="5" height="6" position="5.2 0 2.4" rotation="0 90 0" depth="0.05" static-body></a-box>
+                <a-box width="5" height="6" position="5.2 0.1 2.4" rotation="0 90 0" depth="0.05" static-body></a-box>
                 <rw-wall material="color:#F88"></rw-wall>
 
-                <a-box width="1.5" height="6" position="0.5 0 5.2" depth="0.05" static-body></a-box>
-                <a-box width="1.5" height="6" position="4.5 0 5.2" depth="0.05" static-body></a-box>
+                <a-box width="1.5" height="6" position="0.5 0.1 5.2" depth="0.05" static-body></a-box>
+                <a-box width="1.5" height="6" position="4.5 0.1 5.2" depth="0.05" static-body></a-box>
                 <rw-wall material="color:#F88">
 
                     <rw-doorhole id="frontInner"></rw-doorhole>
 
                 </rw-wall>
 
-                <a-box width="5" height="6" position="-0.2 0 2.5" rotation="0 90 0" depth="0.05" static-body></a-box>
+                <a-box width="5" height="6" position="-0.2 0.1 2.5" rotation="0 90 0" depth="0.05" static-body></a-box>
                 <rw-wall material="color:#F88"></rw-wall>
 
                 <rw-floor mixin="floorMat"></rw-floor>
@@ -131,7 +130,7 @@
 
             </rw-room>
 
-            <rw-doorlink position="0.5 0 0" from="#holeA" to="#holeB" width="2">
+            <rw-doorlink position="0.5 1.6 0" from="#holeA" to="#holeB" width="2">
 
                 <rw-floor mixin="floorMat"></rw-floor>
                 <rw-ceiling material="color:#BB6"></rw-ceiling>
@@ -139,9 +138,9 @@
 
             </rw-doorlink>
 
-            <rw-room position="0 0 -2.7">
+            <rw-room position="0 1.6 -2.7">
 
-                <a-box width="5" height="6" position="-2.4 0 -2.5" rotation="0 90 0" depth="0.05" static-body></a-box>
+                <a-box width="5" height="6" position="-2.4 0.1 -2.5" rotation="0 90 0" depth="0.05" static-body></a-box>
                 <rw-wall position="-2 0 0" material="color:#F00"></rw-wall>
                 <rw-wall position=" 2 0 0" material="src:#testTex; repeat:0.5 0.5;">
 
@@ -155,7 +154,7 @@
 
                 </rw-wall>
 
-                <a-box width="3.5" height="6" position="0 0 -5.1" depth="0.05" static-body></a-box>
+                <a-box width="3.5" height="6" position="0 0.1 -5.1" depth="0.05" static-body></a-box>
                 <rw-wall position="-2 0 -5" material="color:#F0F">
 
                     <a-box position="0.5 1.4 0" scale="0.5 0.5 0.2"></a-box>
@@ -169,12 +168,12 @@
 
             </rw-room>
 
-            <rw-room position="2 0 -5">
+            <rw-room position="2 1.6 -5">
 
-                <a-box width="0.8" height="6" position="0.5 0 -0.5" depth="0.05" static-body></a-box>
+                <a-box width="0.8" height="6" position="0.5 0.1 -0.5" depth="0.05" static-body></a-box>
                 <rw-wall position="0 0 0" material="color:#800"></rw-wall>
 
-                <a-box width="2" height="6" position="0.2 0 -1.9" rotation="0 90 0" depth="0.05" static-body></a-box>
+                <a-box width="2" height="6" position="0.2 0.1 -1.9" rotation="0 90 0" depth="0.05" static-body></a-box>
                 <rw-wall position="0 0 2" material="color:#800">
 
                     <rw-doorhole id="holeD"></rw-doorhole>
@@ -182,7 +181,7 @@
                 </rw-wall>
                 <rw-wall position="1 0 2" material="color:#800"></rw-wall>
 
-                <a-box width="2.5" height="6" position="1.2 0 1" rotation="0 90 0" depth="0.05" static-body></a-box>
+                <a-box width="2.5" height="6" position="1.2 0.1 1" rotation="0 90 0" depth="0.05" static-body></a-box>
                 <rw-wall position="1 0 0" material="color:#800"></rw-wall>
 
                 <rw-floor mixin="floorMat"></rw-floor>
@@ -190,7 +189,7 @@
 
             </rw-room>
 
-            <rw-room position="0 0 0" outside="true" material="color:#877">
+            <rw-room position="0 1.6 0" outside="true" material="color:#877">
 
                 <rw-wall position="-3 0 -8" height="3"></rw-wall>
                 <rw-wall position=" 4 0 -8" height="3"></rw-wall>
@@ -210,7 +209,7 @@
 
             </rw-room>
 
-            <a-plane position="0 3.1 -2.5" rotation="-90 0 0" material="color: white" width="6" height="11" static-body></a-plane>
+            <a-plane position="0 4.7 -2.5" rotation="-90 0 0" material="color: white" width="6" height="11" static-body></a-plane>
 
             <!--<a-ocean-plane material="normalMap: #water-normal;"
                            geometry="width: 10; height: 100;"
