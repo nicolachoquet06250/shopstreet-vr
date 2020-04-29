@@ -30,6 +30,9 @@
                 <a-asset-item id="building-mtl" src="models/immeuble/Building.mtl"></a-asset-item>
                 <a-asset-item id="building-gltf" src="models/immeuble/Building.gltf"></a-asset-item>
 
+                <a-asset-item id="tree-obj" src="models/arbre/Tree.obj"></a-asset-item>
+                <a-asset-item id="tree-mtl" src="models/arbre/Tree.mtl"></a-asset-item>
+
                 <audio id="river" src="sources/audio/rivière.mp3"></audio>
                 <img id="water-normal"
                      src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg"
@@ -43,12 +46,12 @@
             <a-entity id="rig"
                       movement-controls="constrainToNavMesh: true; fly: true" kinematic-body
                       position="-4 1.6 0"
-                      rotation="0 -90 0"
-                      collide-listener>
+                      rotation="0 -90 0">
                 <a-entity id="camera"
                           camera="userHeight: 1.6" position="0 1.6 0"
                           width="0.1" height="0.1" depth="0.1"
-                          look-controls="pointerLockEnabled: true"></a-entity>
+                          look-controls="pointerLockEnabled: true"
+                          collide-listener></a-entity>
 
                 <a-entity id="left-hand"
                           hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
@@ -68,21 +71,30 @@
             <a-sky color="skyblue"></a-sky>
 
             <a-hexgrid src="hex-map.json"
-                       material="color: #47BF92" position="0 0 0" static-body></a-hexgrid>
+                       material="color: #47BF92" position="0 0.05 0" static-body></a-hexgrid>
+
+            <a-box obj-model="obj:#tree-obj; mtl:#tree-mtl"
+                   scale="0.05 0.05 0.05"
+                   position="30 1.5 0"
+                   collide-listener
+                   static-body></a-box>
 <!--            <a-ocean color="#92E2E2" width="25" depth="25" density="15" position="0 1 0" speed="2" static-body></a-ocean>-->
 
             <a-box color="#39BB82" class="links"
                    width="15" height="5" depth="3"
-                   position="-28 5.1 -5"
+                   position="-28 4.1 -5"
+                   collide-listener
                    static-body></a-box>
             <a-box color="#39BB82" class="links"
                    width="15" height="5" depth="3"
                    position="28 4.1 5"
+                   collide-listener
                    static-body></a-box>
             <a-box color="yellow" class="links"
                    width="15"  height="5" depth="3"
                    position="-28 1 10"
                    rotation="45 0 0"
+                   collide-listener
                    static-body></a-box>
 
             <a-text value="Hello World !!" negate="false"
@@ -92,13 +104,15 @@
                       rotation="0 0 -30"
                       width="1" height="1" depth="1"
                       class="links"
+                      collide-listener
                       polygon static-body>
             </a-entity>
 
             <a-box obj-model="obj: #temple-obj; mtl: #temple-mtl"
                    scale="0.05 0.05 0.05"
                    rotation="0 90 0"
-                   position="-28 6.6 20"
+                   position="-28 6.3 20"
+                   collide-listener
                    static-body></a-box>
 
             <rw-room position="-2.5 1.6 -2.5" width="5" length="5" height="3">
