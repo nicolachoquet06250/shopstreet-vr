@@ -73,6 +73,10 @@ AFRAME.registerPrimitive('a-ocean-plane', {
 
 AFRAME.registerComponent('collide-listener', {
 	init: function() {
+		this.el.addEventListener('physicscollided', function (event) {
+			console.log('Entity collided with', event.detail.collidingEntity);
+		});
+
 		this.el.addEventListener('collide', function(e) {
 			console.log('Player has collided with ', e);
 
