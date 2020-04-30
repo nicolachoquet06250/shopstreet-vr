@@ -9,6 +9,8 @@
         <script src="libs/js/aframe/room-component/room-component.min.js"></script>
         <script src="libs/js/aframe/teleport-controls/aframe-teleport-controls.min.js"></script>
         <script src="libs/js/aframe/environment-component/aframe-environment-component.min.js"></script>
+        <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
+        <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
 
         <script src="js/functions.js"></script>
         
@@ -18,43 +20,80 @@
         
         <script src="js/components/polygon.js"></script>
         <script src="js/components/meteo.js"></script>
+
+        <script>
+	        AFRAME.registerComponent('laser-event-listener', {
+		        init: function () {
+			        var el = this.el;
+			        var material = el.getAttribute('material');
+			        var initialColor = material.color;
+			        var self = this;
+
+			        el.addEventListener('mousedown', function (evt) {
+				        el.setAttribute('material', 'color', '#EF2D5E');
+			        });
+
+			        el.addEventListener('mouseup', function (evt) {
+				        el.setAttribute('material', 'color', self.isMouseEnter ? '#24CAFF' : initialColor);
+			        });
+
+			        el.addEventListener('click', function (evt) {
+				        el.setAttribute('material', 'color', 'red');
+				        console.log('click');
+			        });
+
+			        el.addEventListener('mouseenter', function () {
+				        el.setAttribute('material', 'color', '#24CAFF');
+				        self.isMouseEnter = true;
+			        });
+
+			        el.addEventListener('mouseleave', function () {
+				        el.setAttribute('material', 'color', initialColor);
+				        self.isMouseEnter = false;
+			        });
+		        }
+	        });
+        </script>
     </head>
     <body>
         <a-scene physics="debug: false" meteo
-                 renderer="colorManagement: true">
+                 renderer="colorManagement: true" cursor="rayOrigin: mouse" visible="true">
+
             <a-assets>
-                <a-asset-item id="temple-obj" src="models/tample/Mausoleum.obj"></a-asset-item>
+                <!--<a-asset-item id="temple-obj" src="models/tample/Mausoleum.obj"></a-asset-item>
                 <a-asset-item id="temple-mtl" src="models/tample/Mausoleum.mtl"></a-asset-item>
 
                 <a-asset-item id="building-obj" src="models/immeuble/Building.obj"></a-asset-item>
                 <a-asset-item id="building-mtl" src="models/immeuble/Building.mtl"></a-asset-item>
-                <a-asset-item id="building-gltf" src="models/immeuble/Building.gltf"></a-asset-item>
+                <a-asset-item id="building-gltf" src="models/immeuble/Building.gltf"></a-asset-item>-->
 
                 <a-asset-item id="tree-obj" src="models/arbre/Tree.obj"></a-asset-item>
                 <a-asset-item id="tree-mtl" src="models/arbre/Tree.mtl"></a-asset-item>
 
-                <audio id="river" src="sources/audio/rivière.mp3"></audio>
+                <!--<audio id="river" src="sources/audio/rivière.mp3"></audio>
                 <img id="water-normal"
                      src="https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/waternormals.jpg"
                      crossorigin="anonymous"  alt="water mesh"/>
 
-                <a-mixin id="floorMat" material="color:#BBB"></a-mixin>
+                <a-mixin id="floorMat" material="color:#BBB"></a-mixin>-->
                 <img id="testTex" src="https://omgitsraven.github.io/aframe-room-component/examples/basic/test.png">
             </a-assets>
 
             <!-- Player -->
             <a-entity id="rig"
-                      movement-controls="constrainToNavMesh: true; fly: true" kinematic-body
+                      movement-controls="constrainToNavMesh: true; fly: false" kinematic-body
                       position="-4 1.6 0"
                       rotation="0 -90 0">
                 <a-entity id="camera"
-                          camera="userHeight: 1.6" position="0 1.6 0"
-                          width="0.1" height="0.1" depth="0.1"
+                          camera="userHeight: 1.6; active: true" position="0 1.6 0"
                           look-controls="pointerLockEnabled: true"
                           collide-listener></a-entity>
 
                 <a-entity id="left-hand"
                           hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
+                          sphere-collider="objects: .form, .portals" super-hands
+                          collide-listener
+                          raycaster="objects: .form; far: 5"
                           teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: parabolic;"
                           left-hand-listener></a-entity>
                 <a-entity id="right-hand"
@@ -72,15 +111,16 @@
 
             <a-hexgrid src="hex-map.json"
                        material="color: #47BF92" position="0 0.05 0" static-body></a-hexgrid>
+            <a-plane position="0 0 0" rotation="-90 0 0" width="500" height="500" static-body></a-plane>
 
-            <a-box obj-model="obj:#tree-obj; mtl:#tree-mtl"
-                   scale="0.05 0.05 0.05"
+            <!--<a-box obj-model="obj:#tree-obj; mtl:#tree-mtl"
                    position="30 1.5 0"
+                   scale="0.05 0.05 0.05"
                    collide-listener
-                   static-body></a-box>
+                   static-body></a-box>-->
 <!--            <a-ocean color="#92E2E2" width="25" depth="25" density="15" position="0 1 0" speed="2" static-body></a-ocean>-->
 
-            <a-box color="#39BB82" class="links"
+            <!--<a-box color="#39BB82" class="links"
                    width="15" height="5" depth="3"
                    position="-28 4.1 -5"
                    collide-listener
@@ -95,9 +135,9 @@
                    position="-28 1 10"
                    rotation="45 0 0"
                    collide-listener
-                   static-body></a-box>
+                   static-body></a-box>-->
 
-            <a-text value="Hello World !!" negate="false"
+            <!--<a-text value="Hello World !!" negate="false"
                     position="-4 2.7 0"></a-text>
 
             <a-entity position="-20 1.7 -2"
@@ -223,13 +263,40 @@
 
             </rw-room>
 
-            <a-plane position="0 4.7 -2.5" rotation="-90 0 0" material="color: white" width="6" height="11" static-body></a-plane>
+            <a-plane position="0 4.7 -2.5" rotation="-90 0 0" material="color: white" width="6" height="11" static-body></a-plane>-->
 
             <!--<a-ocean-plane material="normalMap: #water-normal;"
                            geometry="width: 10; height: 100;"
                            position="-10 0.2 0"
                            sound="src: #river; autoplay: true; loop: true; positional: true; refDistance: 2; distanceModel: linear;"></a-ocean-plane>-->
 
+            <a-plane material="shader: html; target: #planeHTMLform; ratio: height; transparent: true; side: double"
+                     position="0 2 0"
+                     laser-event-listener
+                     class="form"></a-plane>
+
+            <a-box obj-model="obj:#tree-obj; mtl:#tree-mtl"
+                   position="30 1.5 0"
+                   scale="0.05 0.05 0.05"
+                   collide-listener
+                   static-body></a-box>
+
+            <a-cone color="tomato" position="2 2 2" radius-bottom="2" radius-top="0.5" static-body></a-cone>
+
+            <a-dodecahedron color="#FF926B" radius="5" metalness="1"
+                            position="15 5.5 10" rotation="0 0 55"
+                            static-body></a-dodecahedron>
+            <a-link href="page2.html" title="2em page" image="#testTex"
+                    geometry="primitive: box"
+                    position="8 3.5 10"
+                    rotation="0 90 0"
+                    class="portals"></a-link>
         </a-scene>
+
+        <div style="width: 100%; height: 100%; position: fixed; left: 0; top: 0; z-index: -1; overflow: hidden">
+            <div id="planeHTMLform" style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: white; font-size: 25px">
+                <input type="text" value="toto" style="font-size: 25px" />
+            </div>
+        </div>
     </body>
 </html>

@@ -76,6 +76,8 @@ AFRAME.registerComponent('collide-listener', {
 		this.el.addEventListener('collide', function(e) {
 			console.log('Player has collided with ', e);
 
+			// document.querySelector('a-text').setAttribute('value', 'laser collision');
+
 			// e.detail.target.el; // Original entity (playerEl).
 			// e.detail.body.el; // Other entity, which playerEl touched.
 			// e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
