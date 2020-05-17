@@ -18,7 +18,8 @@ AFRAME.registerComponent('building', {
 		let module = document.createElement('a-dodecahedron');
 		module.setAttribute('radius', radius);
 		module.setAttribute('metalness', metalness);
-		module.setAttribute('color', this.el.getAttribute('color'));
+		// module.setAttribute('color', this.el.getAttribute('color'));
+		module.setAttribute('color', 'yellow');
 		module.setAttribute('static-body', '');
 		module.setAttribute('position', position);
 		module.setAttribute('rotation', { x: 0, y: rotationY, z: 0 });
