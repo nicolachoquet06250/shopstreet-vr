@@ -14,7 +14,7 @@ AFRAME.registerComponent('building', {
 		metalness: { type: "int", default: 1 }
 	},
 	createModule(position) {
-		let {radius, metalness, rotation, rotationY} = this.data;
+		let { radius, metalness, rotationY } = this.data;
 		let module = document.createElement('a-dodecahedron');
 		module.setAttribute('radius', radius);
 		module.setAttribute('metalness', metalness);
@@ -52,19 +52,12 @@ AFRAME.registerComponent('building', {
 		link.classList.add('portals');
 		this.el.appendChild(link);
 
-		// modules = 1;
-
 		if (modules > 1) {
 			modules--;
 
-			// for (let m = 1; m <= modules; m++) {
-				let m = 1;
-				this.el.appendChild(this.createModule({ x: 6.5, y: 4.5, z: 0 }));
-
-				this.el.appendChild(this.createModule({ x: 13, y: 9, z: 0 }));
-
-				// this.el.appendChild(this.createModule({ x: 0, y: 12, z: 0}));
-			// }
+			for (let m = 1; m <= modules; m++) {
+				this.el.appendChild(this.createModule({ x: (m * 6.5), y: (m * 4.5), z: 0 }));
+			}
 		}
 
 		this.el.setAttribute('radius', radius);
