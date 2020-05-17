@@ -59,7 +59,7 @@ AFRAME.registerComponent('building', {
 
 			// for (let m = 1; m <= modules; m++) {
 				let m = 1;
-				this.el.appendChild(this.createModule({ x: 6.5, y: 6, z: 0 }));
+				this.el.appendChild(this.createModule({ x: 6.5, y: 5, z: 0 }));
 
 				// this.el.appendChild(this.createModule({ x: 0, y: 8, z: 0}));
 
