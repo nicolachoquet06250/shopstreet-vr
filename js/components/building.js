@@ -36,9 +36,9 @@ AFRAME.registerComponent('building', {
 		let { radius, rotation, rotationY, destination, title, image, metalness, modules } = this.data;
 
 		let box = document.createElement('a-box');
-		box.setAttribute('width', radius + 0.5);
-		box.setAttribute('height', radius + 0.5);
-		box.setAttribute('depth', radius + 0.5);
+		box.setAttribute('width', radius + 1);
+		box.setAttribute('height', radius + 1);
+		box.setAttribute('depth', radius + 1);
 		box.setAttribute('visible', 'false');
 		box.setAttribute('static-body', '');
 		this.el.appendChild(box);
