@@ -13,6 +13,17 @@ AFRAME.registerComponent('building', {
 		// material
 		metalness: { type: "int", default: 1 }
 	},
+	createModule(position) {
+		let {radius, metalness, rotation, rotationY} = this.data;
+		let module = document.createElement('a-dodecahedron');
+		module.setAttribute('radius', radius);
+		module.setAttribute('metalness', metalness);
+		module.setAttribute('color', this.el.getAttribute('color'));
+		module.setAttribute('static-body', '');
+		module.setAttribute('position', position);
+		module.setAttribute('rotation', { x: 0, y: rotationY, z: 0 });
+		return module;
+	},
 	init() {
 		if (this.el.getAttribute('href')) this.data.destination = this.el.getAttribute('href');
 		if (this.el.getAttribute('image')) this.data.image = this.el.getAttribute('image');
@@ -41,32 +52,19 @@ AFRAME.registerComponent('building', {
 		link.classList.add('portals');
 		this.el.appendChild(link);
 
-		modules = 1;
+		// modules = 1;
 
 		if (modules > 1) {
 			modules--;
 
-			for (let m = 1; m <= modules; m++) {
+			// for (let m = 1; m <= modules; m++) {
 				let m = 1;
-				let module = document.createElement('a-dodecahedron');
-				module.setAttribute('radius', radius);
-				module.setAttribute('metalness', metalness);
-				module.setAttribute('color', this.el.getAttribute('color'));
-				module.setAttribute('static-body', '');
-				module.setAttribute('position', {
-					x: -3,
-					y: -1,
-					z: 3
-				});
-				this.el.setAttribute('rotation', `${rotation.x} ${rotation.y + rotationY} ${rotation.z}`);
-				this.el.setAttribute('rotation', {
-					x: rotation.x,
-					y: 0,
-					z: rotation.z
-				})
-				this.el.appendChild(module);
-				console.log(m)
-			}
+				this.el.appendChild(this.createModule({ x: 6.5, y: 6.5, z: 0 }));
+
+				// this.el.appendChild(this.createModule({ x: 0, y: 8, z: 0}));
+
+				// this.el.appendChild(this.createModule({ x: 0, y: 12, z: 0}));
+			// }
 		}
 
 		this.el.setAttribute('radius', radius);
