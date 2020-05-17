@@ -9,7 +9,6 @@
     <script src="libs/js/aframe/room-component/room-component.min.js"></script>
     <script src="libs/js/aframe/teleport-controls/aframe-teleport-controls.min.js"></script>
     <script src="libs/js/aframe/environment-component/aframe-environment-component.min.js"></script>
-    <script src="https://unpkg.com/aframe-html-shader@0.2.0/dist/aframe-html-shader.min.js"></script>
     <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.7/dist/aframe-controller-cursor-component.min.js"></script>
     <script src="https://rawgit.com/mayognaise/aframe-mouse-cursor-component/master/dist/aframe-mouse-cursor-component.min.js"></script>
@@ -21,91 +20,56 @@
     <script src="js/components/RightHandListener.js"></script>
     <script src="js/components/LeftHandListener.js"></script>
 
-    <script src="js/components/polygon.js"></script>
     <script src="js/components/meteo.js"></script>
-
-    <script>
-		AFRAME.registerComponent('laser-event-listener', {
-			init: function () {
-				var el = this.el;
-				var material = el.getAttribute('material');
-				var initialColor = material.color;
-				var self = this;
-
-				el.addEventListener('mousedown', function (evt) {
-					el.setAttribute('material', 'color', '#EF2D5E');
-				});
-
-				el.addEventListener('mouseup', function (evt) {
-					el.setAttribute('material', 'color', self.isMouseEnter ? '#24CAFF' : initialColor);
-				});
-
-				el.addEventListener('click', function (evt) {
-					el.setAttribute('material', 'color', 'red');
-					console.log('click');
-				});
-
-				el.addEventListener('mouseenter', function () {
-					el.setAttribute('material', 'color', '#24CAFF');
-					self.isMouseEnter = true;
-				});
-
-				el.addEventListener('mouseleave', function () {
-					el.setAttribute('material', 'color', initialColor);
-					self.isMouseEnter = false;
-				});
-			}
-		});
-    </script>
+    <script src="js/components/building.js"></script>
+    <script src="js/components/three.js"></script>
+    <script src="js/components/ground.js"></script>
 </head>
 <body>
-<a-scene physics="debug: false" meteo
-         renderer="colorManagement: true" cursor="rayOrigin: mouse">
+<a-scene physics="debug: true"
+         meteo="active: false"
+         cursor="rayOrigin: mouse">
 
     <a-assets>
-        <a-asset-item id="tree-obj" src="models/arbre/Tree.obj"></a-asset-item>
-        <a-asset-item id="tree-mtl" src="models/arbre/Tree.mtl"></a-asset-item>
-
-<!--        <img id="testTex" src="https://omgitsraven.github.io/aframe-room-component/examples/basic/test.png">-->
-
-        <img id="norsys" src="https://avatars1.githubusercontent.com/u/2487851?s=200&v=4" />
-        <img id="orange" src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg" />
+        <img id="norsys" src="https://avatars1.githubusercontent.com/u/2487851?s=200&v=4" alt="logo norsys" />
+        <img id="orange" src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg" alt="logo orange" />
+        <img id="facebook" src="assets/images/logo_facebook.png" alt="logo facebook" />
+        <img id="ecorse_arbre" src="assets/images/ecorse_arbre.jpg" alt="ecorse arbre" />
     </a-assets>
 
     <!-- Player -->
-    <a-entity id="rig"
-              movement-controls="constrainToNavMesh: true; fly: false" kinematic-body
-              position="-4 1.6 0"
-              rotation="0 -90 0">
-        <a-entity id="camera"
-                  camera="userHeight: 1.6; active: true"
-                  look-controls="pointerLockEnabled: true"
-                  collide-listener mouse-cursor></a-entity>
+    <!--<a-entity id="rig"
+                         movement-controls="constrainToNavMesh: true; fly: false" kinematic-body
+                         position="-10 1.6 30"
+                         rotation="0 -90 0">
+    <a-entity id="camera"
+              camera="userHeight: 1.6; active: true"
+              position="0 1.6 0"
+              look-controls="pointerLockEnabled: true"
+              collide-listener mouse-cursor></a-entity>
 
+    <a-entity id="left-hand"
+              hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
+              sphere-collider="objects: .form, .portals, #keyboard" super-hands
+              teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: parabolic;"
+              left-hand-listener></a-entity>
 
-        <a-entity id="left-hand"
-                  hand-controls="hand: left; handModelStyle: lowPoly; color: #ffcccc"
-                  sphere-collider="objects: .form, .portals, #keyboard" super-hands
-                  teleport-controls="cameraRig: #rig; teleportOrigin: #camera; button: grip; type: parabolic;"
-                  left-hand-listener></a-entity>
+    <a-entity id="right-hand"
+              hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
+              sphere-collider="objects: .form, .portals, #keyboard" super-hands
+              collide-listener controller-cursor right-hand-listener></a-entity>
+</a-entity>-->
 
-        <a-entity id="right-hand"
-                  hand-controls="hand: right; handModelStyle: lowPoly; color: #ffcccc"
-                  sphere-collider="objects: .form, .portals, #keyboard" super-hands
-                  collide-listener controller-cursor right-hand-listener>
-        </a-entity>
-    </a-entity>
-
-    <!-- Ground -->
+    <!-- Sky -->
     <a-sky color="skyblue"></a-sky>
 
-<!--    <a-hexgrid src="hex-map.json"-->
-<!--               material="color: #47BF92" position="0 -1.5 0" static-body></a-hexgrid>-->
-    <a-plane position="0 0 0" rotation="-90 0 0"
-             color="#47BF92"
-             width="500" height="500" static-body></a-plane>
+    <!-- Ground -->
+    <!--<a-hexgrid src="hex-map.json"
+               material="color: #47BF92" position="0 -1.5 0" static-body></a-hexgrid>-->
+    <a-ground width="500" height="500"></a-ground>
 
-    <a-keyboard is-open="true"></a-keyboard>
+    <!-- TODO : FORM TO FINISH -->
+    <!--<a-keyboard is-open="true"></a-keyboard>
     <a-input position="-2 1 0" placeholder="Username" color="black" width="1"></a-input>
     <a-input position="-2 0.5 0" type="password" placeholder="Password" color="black" width="1"></a-input>
 
@@ -122,41 +86,20 @@
             <a-button position="0.2 0.8 0" name="stuff" value="Click me" type="raised"></a-button>
             <a-button position="0.2 0.35 0" width="3" name="stuff" value="You cannot click me" disabled="true"></a-button>
         </a-form>
-    </a-rounded>
+    </a-rounded>-->
 
-    <a-box obj-model="obj:#tree-obj; mtl:#tree-mtl"
-           position="30 0 0"
-           scale="0.05 0.05 0.05"
-           collide-listener
-           static-body></a-box>
+    <a-tree position="30 0 0" trunkHeight="4"></a-tree>
 
-<!--    <a-cone color="tomato" position="2 0.5 2" radius-bottom="2" radius-top="0.5" static-body></a-cone>-->
+    <a-building color="orange" position="45 4 -10" href="index.html" title="Orange" image="#orange"></a-building>
+    <a-building color="red" position="25 4 -10" href="index.html" title="Norsys" image="#norsys"></a-building>
+    <a-building color="blue" position="5 4 -10" href="index.html" title="Facebook" image="#facebook"></a-building>
 
-    <a-dodecahedron color="red" radius="5" metalness="1"
-                    position="15 3 10" rotation="0 0 55"
-                    static-body></a-dodecahedron>
-    <a-link href="index.html" title="Norsys" image="#norsys"
-            geometry="primitive: box"
-            position="8 3.5 10"
-            rotation="0 90 0"
-            class="portals"></a-link>
+    <a-building color="orange" position="45 4 10" href="index.html" title="Orange" image="#orange"></a-building>
+    <a-building color="red" position="25 4 10" href="index.html" title="Norsys" image="#norsys"></a-building>
+    <a-building color="blue" position="5 4 10" href="index.html" title="Facebook" image="#facebook"></a-building>
 
-    <a-dodecahedron color="orange" radius="5" metalness="1"
-                    position="25 3 20" rotation="0 0 55"
-                    static-body></a-dodecahedron>
-    <a-link href="index.html" title="Orange" image="#orange"
-            geometry="primitive: box"
-            position="18 3.5 20"
-            rotation="0 90 0"
-            class="portals"></a-link>
+    <a-building color="blue" position="5 4 30" modules="3" href="index.html" title="Facebook" image="#facebook"></a-building>
+
 </a-scene>
-
-<!--<script>
-	window.addEventListener('load', () => {
-		document.querySelector("a-keyboard").object3D.visible = false;
-		console.log(document.querySelector("a-keyboard").object3D.children.values());
-		console.log(document.querySelector("a-keyboard").object3D);
-	});
-</script>-->
 </body>
 </html>
