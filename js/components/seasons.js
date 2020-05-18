@@ -5,7 +5,12 @@ AFRAME.registerComponent('seasons', {
 	init() {
 		if (this.data.active) {
 			let currentYear =  (new Date()).getFullYear();
-			fetch(`https://kalendrier.ouest-france.fr/dates-changements-saisons-${currentYear}.html`).then(r => r.text())
+			fetch(`https://kalendrier.ouest-france.fr/dates-changements-saisons-${currentYear}.html`,
+				{
+					headers: {
+						Host: 'kalendrier.ouest-france.fr'
+					}
+				}).then(r => r.text())
 				.then(html => {
 					let parser = new DOMParser();
 					let dom = parser.parseFromString(html, 'text/html');
