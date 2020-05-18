@@ -5,20 +5,20 @@ AFRAME.registerComponent('meteo', {
 	createCloud(position) {
 		let cloud = document.createElement('a-cloud');
 		cloud.setAttribute('position', position);
-		cloud.setAttribute('color', 'gray');
+		cloud.setAttribute('type', 'raining');
 		cloud.interval = setInterval(() => {
 			let new_position = cloud.getAttribute('position');
-			new_position.x++;
+			new_position.x += 0.1;
 			cloud.setAttribute('position', new_position);
-		}, 500);
+		}, 50);
 		return cloud;
 	},
 	addCloud(cloud) {
 		this.el.appendChild(cloud);
 	},
 	removeCloud(cloud) {
-		clearInterval(cloud.interval);
-		this.el.removeChild(cloud);
+		// clearInterval(cloud.interval);
+		// this.el.removeChild(cloud);
 	},
 
 	init: function () {
@@ -28,19 +28,43 @@ AFRAME.registerComponent('meteo', {
 		this.addressdetails = '1';
 		this.meteo_url = 'https://www.prevision-meteo.ch/services/json/';
 
+		let defaultLocation = {
+			coords: {
+				accuracy: 31,
+				altitude: null,
+				altitudeAccuracy: null,
+				heading: null,
+				latitude: 43.6238698,
+				longitude: 7.001978599999999,
+				speed: null
+			}
+		};
+
 		if (this.data.active) {
-			new Promise(resolve => navigator.geolocation.getCurrentPosition(resolve)).then(position => {
-				fetch(`${this.openstreetmap_url}&${this.latParam}=${position.coords.latitude}&${this.longParam}=${position.coords.longitude}&addressdetails=${this.addressdetails}`)
-					.then(r => r.json())
-					.then(json => json.address.town)
-					.then(ville => fetch(`${this.meteo_url}${ville}`)).then(r => r.json()).then(json => {
+			let getPosition = new Promise((resolve, reject) => {
+				let valid = false;
+				navigator.geolocation.getCurrentPosition(position => {
+					valid = true;
+					resolve(position);
+				}, e => reject(e));
+				if (!valid) resolve(defaultLocation);
+			});
+
+			getPosition
+				.then(position => fetch(`${this.openstreetmap_url}&${this.latParam}=${position.coords.latitude}&${this.longParam}=${position.coords.longitude}&addressdetails=${this.addressdetails}`))
+				.then(r => r.json())
+				.then(json => json.address.town)
+				.then(city => fetch(`${this.meteo_url}${city}`))
+				.then(r => r.json())
+				.then(json => {
 					console.log(json);
 
 					let cloud = this.createCloud({ x: 5, y: 100, z: 50 });
 					this.addCloud(cloud);
 					setTimeout(() => this.removeCloud(cloud), 15000);
+				}).catch(e => {
+					document.querySelector('a-text').setAttribute('value', 'ERROR: ' + e);
 				});
-			});
 		}
 	}
 });
