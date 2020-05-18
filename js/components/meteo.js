@@ -1,8 +1,6 @@
 AFRAME.registerComponent('meteo', {
 	schema: {
-		active: {
-			default: true
-		}
+		active: { default: true }
 	},
 	init: function () {
 		this.openstreetmap_url = 'https://nominatim.openstreetmap.org/reverse?format=json';

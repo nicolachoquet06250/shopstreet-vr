@@ -21,6 +21,7 @@
     <script src="js/components/LeftHandListener.js"></script>
 
     <script src="js/components/meteo.js"></script>
+    <script src="js/components/seasons.js"></script>
     <script src="js/components/building.js"></script>
     <script src="js/components/tree.js"></script>
     <script src="js/components/ground.js"></script>
@@ -28,13 +29,13 @@
 <body>
 <a-scene physics="debug: false"
          meteo="active: false"
+         seasons="active: true"
          cursor="rayOrigin: mouse">
 
     <a-assets>
         <img id="norsys" src="https://avatars1.githubusercontent.com/u/2487851?s=200&v=4" alt="logo norsys" />
         <img id="orange" src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg" alt="logo orange" />
         <img id="facebook" src="assets/images/logo_facebook.png" alt="logo facebook" />
-        <img id="ecorse_arbre" src="assets/images/ecorse_arbre.jpg" alt="ecorse arbre" />
     </a-assets>
 
     <!-- Player -->
