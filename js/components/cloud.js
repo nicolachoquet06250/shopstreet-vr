@@ -29,12 +29,13 @@ AFRAME.registerComponent('cloud', {
 		goutte.setAttribute('depth', 1);
 		goutte.setAttribute('color', 'blue');
 		goutte.setAttribute('static-body', '');
-		goutte.setAttribute('position', { x: 0, y: -1, z: 0 });
+		let x = Math.floor(Math.random() * (3 - (-3) + 1)) + (-3);
+		let z = Math.floor(Math.random() * (4 - (-4) + 1)) + (-4);
+		goutte.setAttribute('position', { x, y: -1, z });
 		let interval = setInterval(() => {
 			let new_position = goutte.getAttribute('position');
 			new_position.y -= 0.2;
 			new_position.x -= 0.1;
-			console.log(new_position.y);
 			if (new_position.y <= -99) {
 				clearInterval(interval);
 				this.el.removeChild(goutte);
@@ -59,6 +60,7 @@ AFRAME.registerComponent('cloud', {
 		switch (this.data.type) {
 			case 'raining':
 				this.createRain();
+				setInterval(() => this.createRain(), 100);
 				break;
 		}
 	}
