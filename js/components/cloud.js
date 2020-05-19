@@ -39,9 +39,9 @@ AFRAME.registerComponent('cloud', {
 		goutte.setAttribute('static-body', '');
 		goutte.setAttribute('position', { x, y: -1, z });
 
-		goutte.addEventListener('collide', e => {
+		goutte.addEventListener('collisions', e => {
 			console.log('la goute d\'eau à touché quelque chose !!');
-		})
+		});
 
 		goutte.interval = setInterval(() => {
 			let new_position = goutte.getAttribute('position');
